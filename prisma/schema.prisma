@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Food_Places {
+  place_id Int @id @default(autoincrement())
+  name String
+  description String
+  image String?
+  address String
+  contact String?
+  social_instagram String?
+  social_whatsapp String?
+}
+
+model Products {
+  product_id Int @id @default(autoincrement())
+  name String
+  description String
+  image String
+  price Float
+  category_id Int
+  category Categories @relation( fields: [category_id], references: [category_id] )
+}
+
+model Categories {
+  category_id Int @id @default(autoincrement())
+  name String
+  products Products[]
+}
+
+model Order {
+  order_id Int @id @default(autoincrement())
+  client_name String
+  date String
+  total Float
+  order Json
+}
